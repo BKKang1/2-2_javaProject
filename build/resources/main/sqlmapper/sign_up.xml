@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.sign_up">
+<resultMap id="result" type="persistence.dto.SignUpDTO">
+    <result property="order" column="order"/>
+    <result property="id" column="id"/>
+    <result property="lectureCode" column="lectureCode"/>
+    <result property="lecture" column="lecture"/>
+    <result property="name" column="name"/>
+    <result property="time" column="time"/>
+</resultMap>
+    <select id="selectAll" resultMap="result">
+        SELECT * FROM sign_up
+    </select>
+
+    <select id="selectOne" resultMap="result">
+        SELECT * FROM sign_up WHERE id=#{id};
+    </select>
+
+    <insert id="insertOne"  parameterType="persistence.dto.SignUpDTO">
+        INSERT INTO sign_up (id,lectureCode,lecture,name,time) VALUES (#{id} ,#{lectureCode},#{lecture},#{name},#{time});
+    </insert>
+
+
+    <delete id="deleteOne"   parameterType="persistence.dto.SignUpDTO">
+        DELETE FROM sign_up WHERE  id=#{id} AND lectureCode=#{lectureCode} ;
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.sign_up_term">
+    <resultMap id="result" type="persistence.dto.SignUpTermDTO">
+        <result property="lectureCode" column="lectureCode"/>
+        <result property="grade" column="grade"/>
+        <result property="applyStartDate" column="applyStartDate"/>
+        <result property="applyEndDate" column="applyEndDate"/>
+    </resultMap>
+    <select id="selectAll" resultMap="result">
+        SELECT * FROM sign_up_term
+    </select>
+
+    <select id="selectOne" resultMap="result" parameterType="INT" >
+        SELECT * FROM sign_up_term WHERE lectureCode=#{lectureCode};
+    </select>
+
+    <insert id="insertOne"  parameterType="persistence.dto.SignUpTermDTO">
+        INSERT INTO sign_up_term VALUES (#{lectureCode} ,#{grade},#{applyStartDate},#{applyEndDate});
+    </insert>
+
+
+    <delete id="deleteOne"   parameterType="persistence.dto.SignUpTermDTO">
+        DELETE FROM sign_up_term WHERE  lectureCode=#{lectureCode} ;
+    </delete>
+
+    <update id="update"   parameterType="persistence.dto.SignUpTermDTO">
+        UPDATE sign_up_term SET  applyEndDate=#{applyEndDate} , applyStartDate=#{applyStartDate} WHERE grade=#{grade} ;
+    </update>
+
+</mapper>
