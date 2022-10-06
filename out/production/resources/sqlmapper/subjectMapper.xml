@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.subjectMapper">
+    <resultMap id="result" type="persistence.dto.SubjectDTO">
+        <result property="lectureCode" column="lectureCode"/>
+        <result property="lecture" column="lecture"/>
+        <result property="grade" column="grade"/>
+        <result property="semester" column="semester"/>
+    </resultMap>
+    <!-- 전체 조회 -->
+    <select id="readAll" resultMap="result">
+        SELECT * FROM subject
+    </select>
+    <!-- 학년별 조회 -->
+    <select id="readByGrade" parameterType="int" resultMap="result">
+        SELECT * FROM subject WHERE grade = #{grade}
+    </select>
+    <!-- 교과목 생성 -->
+    <insert id="insertSub" parameterType="persistence.dto.SubjectDTO">
+        INSERT INTO subject(lectureCode, lecture, grade, semester)
+        VALUES (#{lectureCode}, #{lecture}, #{grade}, #{semester})
+    </insert>
+    <!-- 교과목 수정 -->
+    <update id="update" parameterType="persistence.dto.SubjectDTO">
+        UPDATE subject
+        SET lecture = #{lecture}
+        WHERE lectureCode = #{lectureCode}
+    </update>
+    <!-- 과목 코드로 교과목 조회 -->
+    <select id="getByLectureCode" parameterType="int" resultMap="result">
+        SELECT * FROM subject WHERE lectureCode = #{lectureCode}
+    </select>
+    <!-- 과목 코드로 교과목 삭제 -->
+    <delete id="deleteByLectureCode" parameterType="int">
+        DELETE FROM subject WHERE lectureCode = #{lectureCode}
+    </delete>
+</mapper>

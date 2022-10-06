@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.sign_up">
+<resultMap id="result" type="persistence.dto.SignUpDTO">
+    <result property="order" column="order"/>
+    <result property="id" column="id"/>
+    <result property="lectureCode" column="lectureCode"/>
+    <result property="lecture" column="lecture"/>
+    <result property="name" column="name"/>
+    <result property="time" column="time"/>
+</resultMap>
+    <!-- 전체 조회 -->
+    <select id="selectAll" resultMap="result">
+        SELECT * FROM sign_up
+    </select>
+    <!-- 학번으로 하나 조회 -->
+    <select id="selectOne" resultMap="result">
+        SELECT * FROM sign_up WHERE id=#{id};
+    </select>
+    <!-- 교수 관점 조회-->
+    <select id="selectProfAspect" resultMap="result">
+        SELECT * FROM sign_up WHERE name=#{name} order by id asc LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <!-- 수강 신청-->
+    <insert id="insertOne"  parameterType="persistence.dto.SignUpDTO">
+        INSERT INTO sign_up (id,lectureCode,lecture,name,time) VALUES (#{id} ,#{lectureCode},#{lecture},#{name}, #{time});
+    </insert>
+    <!-- 수강 취소 -->
+    <delete id="deleteOne"   parameterType="persistence.dto.SignUpDTO">
+        DELETE FROM sign_up WHERE  id=#{id} AND lectureCode=#{lectureCode} ;
+    </delete>
+    <!-- 수강 신청 목록 페이징 조회 -->
+    <select id="selectUsingPaging" resultMap="result">
+        SELECT @ROWNUM:=@ROWNUM+1 AS RNUM, TOTAL.* FROM (SELECT * FROM sign_up , (SELECT @ROWNUM := 0) R  ORDER BY id ASC ) TOTAL WHERE name=#{name} LIMIT #{startPoint}, 2;
+    </select>
+    <!-- 이름으로 조회 -->
+    <select id="selectByName" resultMap="result">
+        SELECT * FROM sign_up WHERE name=#{name};
+    </select>
+    <!-- 교과목 코드로 조회 -->
+    <select id="selectByLectureCode" resultMap="result">
+        SELECT * FROM sign_up WHERE lectureCode=#{lectureCode};
+    </select>
+    <!-- 교과목코드와 이름으로 조회 -->
+    <select id="selectByLectureCodeAndName" parameterType="persistence.dto.SignUpDTO" resultMap="result">
+        SELECT * FROM sign_up WHERE lectureCode=#{lectureCode} AND name=#{name};
+    </select>
+
+</mapper>
+

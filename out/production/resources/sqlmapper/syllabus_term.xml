@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.syllabus_term">
+    <resultMap id="result" type="persistence.dto.SyllabusTermDTO">
+        <result property="order" column="order"/>
+        <result property="grade" column="grade"/>
+        <result property="applyStartDate" column="applyStartDate"/>
+        <result property="applyEndDate" column="applyEndDate"/>
+    </resultMap>
+
+    <!-- 강의계획서 기간 조회 -->
+    <select id="selectAll" resultMap="result">
+        SELECT * FROM syllabus_term
+    </select>
+    <!-- 강의계획서 기간 학년으로 조회 -->
+    <select id="selectOne" resultMap="result" parameterType="INT" >
+        SELECT * FROM syllabus_term WHERE grade=#{grade};
+    </select>
+    <!-- 강의계획서 기간 입력 -->
+    <insert id="insertOne"  parameterType="persistence.dto.SyllabusTermDTO">
+        INSERT INTO syllabus_term VALUES (0, #{grade},#{applyStartDate},#{applyEndDate});
+    </insert>
+
+    <!-- 강의계획서 기간 삭제 -->
+    <delete id="deleteOne"  parameterType="persistence.dto.SyllabusTermDTO">
+        DELETE FROM syllabus_term WHERE  grade=#{grade} ;
+    </delete>
+    <!-- 강의계획서 기간 수정-->
+    <update id="update"  parameterType="persistence.dto.SyllabusTermDTO">
+        UPDATE syllabus_term SET  applyEndDate=#{applyEndDate} , applyStartDate=#{applyStartDate} WHERE grade=#{grade} ;
+    </update>
+
+</mapper>
